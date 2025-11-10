@@ -2,68 +2,46 @@
 
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
-    const services = ['Service 1', 'Service 2', 'Service 3', 'Service 4', 'Service 5'];
+    const services = ['Direito Civil', 'Direito Trabalhista', 'Direito de Família', 'Direito Empresarial', 'Direito Imobiliário'];
     const error_msgs = [...$$(".error")];
     const constraints = {
         email: {
             presence: {
                 allowEmpty: false,
-                message: "Email field is mandatory!"
+                message: "Campo obrigatório!"
             },
             email: {
-                message: "Please use a valid email address!"
+                message: "Por favor, use um email válido!"
             }
         },
         message: {
             presence: {
                 allowEmpty: false,
-                message: "Message field is mandatory!"
-            }
-        },
-        service: {
-            presence: {
-                allowEmpty: false,
-                message: "Service field is mandatory!"
+                message: "Campo obrigatório!"
             }
         },
         name: {
             presence: {
                 allowEmpty: false,
-                message: "Name field is mandatory!"
+                message: "Campo obrigatório!"
             }
         },
         phone: {
             presence: {
                 allowEmpty: false,
-                message: "Phone field is mandatory!"
+                message: "Campo obrigatório!"
             },
             format: {
-                pattern: "(\\+4)?(07)(\\d{8})", // Romania
-                message: "Please use a valid phone number!"
+                pattern: "\\(?\\d{2}\\)?\\s?9?\\d{4}-?\\d{4}", // Brazilian phone
+                message: "Por favor, use um telefone válido!"
             }
 
         },
     }
 
-    const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-    if (window.innerWidth < 812) {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-
-    $(".form").addEventListener('submit', sendEmail);
-    $(".one_more").addEventListener('click', showForm);
-    $(".map").addEventListener('click', mapHandler);
-
-    function mapHandler(ev) {
-        // When the user clicks on the map
-        window.open("https://dummyimage.com/1000x800/000/f5f5f5&text=map+image");
-    }
-
-    function showForm(ev) {
-        ev.preventDefault();
-        $(".form").classList.remove('formSent');
+    const contactForm = $("#contact-form");
+    if (contactForm) {
+        contactForm.addEventListener('submit', sendEmail);
     }
 
     function sendEmail(e) {
@@ -74,18 +52,16 @@
         for ([key, value] of new FormData(this))
             data[key] = value;
 
-
         const errors = validate(data, constraints);
 
         if (errors) {
-
             error_msgs.forEach((err, index) => {
                 const field = err.dataset.field;
 
                 if (errors[field]) {
                     const errMessage = errors[field][0].slice(field.length + 1)
 
-                    err.classList.remove("hide");
+                    err.classList.remove("hidden");
                     err.textContent = errMessage;
                 }
             })
@@ -94,6 +70,10 @@
         }
 
         clearErrors();
+
+        // Show success message
+        $("#form-fields").classList.add('hidden');
+        $("#success-message").classList.remove('hidden');
 
         setTimeout(() => {
             $("input[name='email']").value = '';
@@ -109,14 +89,12 @@
         Here you could send the email.
         fetch(...)
             .then(res => res.json())
-            .then(res => { this.classList.add('formSent') })
+            .then(res => { ... })
         */
-
-        this.classList.add('formSent');
     }
 
     function clearErrors () {
-        error_msgs.forEach(err => err.classList.add("hide"));
-    }   
+        error_msgs.forEach(err => err.classList.add("hidden"));
+    }
 
 })();

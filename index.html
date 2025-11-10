@@ -3,658 +3,788 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="width=590" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Advocacia</title>
-    <meta name="description" content="Advocacia Demo" />
+    <title>Advocacia A</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.png" />
+    <meta name="description" content="Escritório de advocacia em Cuiabá-MT com mais de 15 anos de experiência. Atuamos em Direito Civil, Trabalhista, Família, Empresarial e Imobiliário. Agende uma consulta: (65) 99920-7154" />
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
       integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
       crossorigin="anonymous"
     />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Pacifico"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Muli"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Slabo+27px"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css"
-    />
-    <link rel="stylesheet" href="./css/main.css" />
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      h1, h2, h3, .font-display {
+        font-family: 'Playfair Display', serif;
+      }
+      
+      /* Cursor Effect */
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #111827;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.2s ease;
+        mix-blend-mode: difference;
+        background-color: white;
+      }
+      
+      .cursor-outline {
+        width: 30px;
+        height: 30px;
+        border: 2px solid #111827;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transition: all 0.15s ease;
+        mix-blend-mode: difference;
+        border-color: white;
+      }
+      
+      /* Magnetic Button Effect */
+      .magnetic-btn {
+        position: relative;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+      }
+      
+      .magnetic-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.1);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+      
+      .magnetic-btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+      
+      /* Service Tab Animation */
+      .service-tab {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .service-tab::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: white;
+        transition: width 0.3s ease;
+      }
+      
+      .service-tab:hover::after {
+        width: 100%;
+      }
+      
+      .service-tab.active::after {
+        width: 100%;
+      }
+      
+      /* Quality Card Gradient Border */
+      .quality-card {
+        position: relative;
+        background: linear-gradient(145deg, #f9fafb, #f3f4f6);
+      }
+      
+      .quality-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        padding: 2px;
+        background: linear-gradient(145deg, #111827, #4b5563);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .quality-card:hover::before {
+        opacity: 0.5;
+      }
+      
+      /* Smooth Page Transitions */
+      .page-transition {
+        transition: opacity 0.3s ease;
+      }
+      
+      /* Floating Animation */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      .quality-card:hover .w-16 {
+        animation: float 2s ease-in-out infinite;
+      }
+      
+      /* Image Overlay Effect */
+      .image-overlay {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .image-overlay::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.7s;
+        z-index: 1;
+      }
+      
+      .image-overlay:hover::before {
+        left: 100%;
+      }
+      
+      /* Parallax Effect for Images - Removed, causing issues */
+      @media (min-width: 768px) {
+        .parallax-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      
+      /* Shine Effect */
+      @keyframes shine {
+        0% { left: -100%; }
+        100% { left: 100%; }
+      }
+      
+      .magnetic-btn {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .magnetic-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.5s;
+      }
+      
+      .magnetic-btn:hover::after {
+        left: 100%;
+      }
+      
+      /* Text Reveal Effect */
+      .text-reveal {
+        overflow: hidden;
+      }
+      
+      .text-reveal span {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(100%);
+      }
+    </style>
   </head>
 
-  <body>
-    <header>
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="javascript:void(0)">Advocacia</a>
-        <div class="static_address">
-          <div class="static_address__name">
-            <a class="phone" href="javascript:void(0)">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-              (65) 99248-4751
+  <body class="bg-gray-50 text-gray-900">
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-gray-200 z-[60]">
+      <div class="h-full bg-gray-900 transition-all duration-300" id="scroll-progress" style="width: 0%"></div>
+    </div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white shadow-sm z-50">
+      <nav class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <a href="#" class="font-display text-2xl font-bold text-gray-900">Advocacia</a>
+          <div class="flex items-center space-x-6">
+            <a href="#services" class="hidden md:block text-gray-600 hover:text-gray-900 transition">Serviços</a>
+            <a href="#contact" class="hidden md:block text-gray-600 hover:text-gray-900 transition">Contato</a>
+            <a href="tel:+5565999207154" class="flex items-center text-gray-900 font-medium">
+              <i class="fa fa-phone mr-2"></i>
+              (65) 99920-7154
             </a>
-            <!-- <a class="phone" href="javascript:void(0)">
-                        <i class="fa fa-phone" aria-hidden="true"></i>
-                        phone-number
-                    </a> -->
           </div>
         </div>
-        <div class="spacer"></div>
       </nav>
     </header>
 
-    <div class="carousel_container">
-      <div
-        class="carousel slide"
-        id="the-carousel"
-        data-ride="carousel"
-        style="z-index: 1"
-      >
-        <ol class="carousel-indicators">
-          <li class="active" data-target="#the-carousel" data-slide-to="0"></li>
-          <li data-target="#the-carousel" data-slide-to="1"></li>
-          <li data-target="#the-carousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <div class="carousel-item active" data-src="./img/image1.jpg">
-            <div class="carousel-caption">
-              <h1 class="titlu_imp" data-animation="animated slideInRight">
-                Título
-              </h1>
-              <div data-animation="animated slideInLeft" class="anunt">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
-                molestiae repellendus veniam corrupti quidem provident facere
-                totam, nesciunt, blanditiis eligendi aut rem. Sunt sequi
-                exercitationem saepe praesentium provident dignissimos
-                blanditiis?
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item" data-src="./img/man.jpeg">
-            <div class="carousel-caption">
-              <h1 class="titlu_imp" data-animation="animated lightSpeedIn">
-                Título
-              </h1>
-              <div class="anunt" data-animation="animated slideInRight">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure
-                nemo modi accusantium consequatur, obcaecati fuga quos
-                voluptates illo tempore doloremque ut quas, libero impedit
-                laudantium quod ipsum temporibus debitis labore.
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item" data-src="./img/hand-shaking.jpeg">
-            <div class="carousel-caption">
-              <div class="hand_shaking_container">
-                <h1
-                  class="hand_shaking_container__title"
-                  data-animation="animated slideInRight"
-                  data-delay="200"
-                >
-                  Qualidade 1
-                </h1>
-                <h1
-                  class="hand_shaking_container__title"
-                  data-animation="animated slideInLeft"
-                  data-delay="200"
-                >
-                  Qualidade 2
-                </h1>
-                <h1
-                  class="hand_shaking_container__title"
-                  data-animation="animated slideInRight"
-                  data-delay="200"
-                >
-                  Qualidade 3
-                </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a
-          style="z-index: 1000"
-          class="carousel-control-prev"
-          href="#the-carousel"
-          role="button"
-          data-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Anterior</span>
-        </a>
-        <a
-          class="carousel-control-next"
-          href="#the-carousel"
-          role="button"
-          data-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Próximo</span>
-        </a>
+    <!-- Hero Section -->
+    <section class="pt-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden relative">
+      <!-- Background Image with Overlay -->
+      <div class="absolute inset-0 z-0 overflow-hidden">
+        <img src="./img/image1.jpg" alt="Advocacia" class="parallax-bg opacity-20" style="transform: translateY(0)" />
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/90 to-gray-800/90"></div>
       </div>
-    </div>
+      
+      <div class="container mx-auto px-6 py-32 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight hero-title">
+            Excelência em Advocacia
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed hero-text">
+            Mais de 15 anos de experiência defendendo seus direitos com dedicação, ética e resultados comprovados em Cuiabá e todo Mato Grosso
+          </p>
+          <a href="#contact" class="magnetic-btn inline-block bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition transform hover:scale-105 hero-btn">
+            Agende uma Consulta
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- Qualities -->
-    <div class="container-fluid" style="margin-top: 25px">
-      <div class="row" style="justify-content: space-evenly">
-        <div
-          class="col-sm-5 col-lg-3 col-sm-10 text-center my-3 skill_container"
-          style="border: 1px solid black"
-        >
-          <div class="skill_container__icon">
-            <a
-              href="javascript:void(0)"
-              class="service-icon p-3 rounded-circle"
-            >
-              <i class="fas fa-balance-scale"></i>
-            </a>
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <!-- Experiência -->
+          <div class="quality-card group bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div class="w-16 h-16 bg-gray-900 text-white rounded-xl flex items-center justify-center mb-6 group-hover:bg-gray-800 transition group-hover:rotate-6">
+              <i class="fas fa-balance-scale text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4 text-gray-900">Experiência Comprovada</h3>
+            <p class="text-gray-600 leading-relaxed">
+              <strong>Mais de 15 anos</strong> atuando nas principais áreas do direito, com centenas de casos bem-sucedidos. Nossa equipe possui vasta experiência em tribunais de todas as instâncias, garantindo a melhor defesa dos seus interesses.
+            </p>
           </div>
-          <h5 class="mt-4 mb-2 skill_container__title">Experiência</h5>
-          <p class="w-80 mx-auto text-muted skill_container__content">
-            Sobre <strong>Experiência</strong> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Nemo delectus reprehenderit aspernatur
-            architecto, vero corrupti recusandae cum illo itaque a libero quod
-            blanditiis rerum quo?
-          </p>
+
+          <!-- Integridade -->
+          <div class="quality-card group bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div class="w-16 h-16 bg-gray-900 text-white rounded-xl flex items-center justify-center mb-6 group-hover:bg-gray-800 transition group-hover:rotate-6">
+              <i class="fas fa-shield-alt text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4 text-gray-900">Ética e Transparência</h3>
+            <p class="text-gray-600 leading-relaxed">
+              <strong>Conduta irrepreensível</strong> e total transparência em todas as etapas do processo. Mantemos nossos clientes sempre informados, com comunicação clara e honesta sobre possibilidades e estratégias jurídicas.
+            </p>
+          </div>
+
+          <!-- Performance -->
+          <div class="quality-card group bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div class="w-16 h-16 bg-gray-900 text-white rounded-xl flex items-center justify-center mb-6 group-hover:bg-gray-800 transition group-hover:rotate-6">
+              <i class="fas fa-brain text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4 text-gray-900">Resultados Efetivos</h3>
+            <p class="text-gray-600 leading-relaxed">
+              <strong>Alto índice de êxito</strong> nas causas patrocinadas. Utilizamos estratégias jurídicas personalizadas e atualizadas, combinando conhecimento técnico com visão prática para alcançar os melhores resultados possíveis.
+            </p>
+          </div>
         </div>
-        <div
-          class="col-sm-5 col-lg-3 col-sm-10 text-center my-3 skill_container"
-        >
-          <div class="skill_container__icon">
-            <a
-              href="javascript:void(0)"
-              class="service-icon p-3 rounded-circle"
-            >
-              <i class="fas fa-shield-alt"></i>
-            </a>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <!-- Profissionalismo -->
+          <div class="quality-card group bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div class="w-16 h-16 bg-gray-900 text-white rounded-xl flex items-center justify-center mb-6 group-hover:bg-gray-800 transition group-hover:rotate-6">
+              <i class="far fa-building text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4 text-gray-900">Atendimento Personalizado</h3>
+            <p class="text-gray-600 leading-relaxed">
+              <strong>Dedicação exclusiva</strong> ao seu caso. Cada cliente recebe atenção individualizada, com análise detalhada das particularidades da situação e desenvolvimento de estratégias específicas para obter o melhor resultado.
+            </p>
           </div>
-          <h5 class="mt-4 mb-2 skill_container__title">Integridade</h5>
-          <p class="w-75 mx-auto text-muted skill_container__content">
-            <strong>Integridade</strong> Lorem ipsum dolor amet consectetur
-            adipisicing elit. Earum nostrum non magni quidem dolorem eaque
-            officia perspiciatis at voluptates voluptatem.
-          </p>
-        </div>
-        <div class="col-sm-10 col-lg-3 text-center my-3 skill_container">
-          <div class="skill_container__icon">
-            <a
-              href="javascript:void(0)"
-              class="service-icon p-3 rounded-circle"
-            >
-              <i class="fas fa-brain"></i>
-            </a>
+
+          <!-- Clientes -->
+          <div class="quality-card group bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div class="w-16 h-16 bg-gray-900 text-white rounded-xl flex items-center justify-center mb-6 group-hover:bg-gray-800 transition group-hover:rotate-6">
+              <i class="fa fa-users text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4 text-gray-900">Confiança e Credibilidade</h3>
+            <p class="text-gray-600 leading-relaxed">
+              <strong>Centenas de clientes satisfeitos</strong> ao longo de nossa trajetória. Construímos relacionamentos duradouros baseados em confiança mútua, sigilo profissional e compromisso com a excelência na prestação de serviços jurídicos.
+            </p>
           </div>
-          <h5 class="mt-4 mb-2 skill_container__title">Performance</h5>
-          <p class="w-75 mx-auto text-muted skill_container__content">
-            <strong>Performance</strong> Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Saepe vitae amet et delectus, minima asperiores
-            perferendis. A placeat recusandae vitae!
-          </p>
-        </div>
-      </div>
-      <div class="row mt-3" style="justify-content: space-evenly">
-        <div
-          class="col-lg-4 col-xs-10 col-sm-5 text-center my-3 skill_container"
-        >
-          <div class="skill_container__icon">
-            <a
-              href="javascript:void(0)"
-              class="service-icon p-3 rounded-circle"
-            >
-              <i class="far fa-building"></i>
-            </a>
-          </div>
-          <h5 class="mt-4 mb-2 skill_container__title">Profissionalismo</h5>
-          <p class="w-90 mx-auto text-muted skill_container__content">
-            Sobre <strong>Profissionalismo</strong> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Quo magni cupiditate saepe eius
-            exercitationem? Est asperiores velit nam placeat omnis eius delectus
-            voluptate praesentium esse eos! Enim quasi eveniet consectetur!
-          </p>
-        </div>
-        <div
-          class="col-sm-5 col-xs-10 col-lg-4 text-center my-3 skill_container clienti"
-        >
-          <div class="skill_container__icon">
-            <a
-              href="javascript:void(0)"
-              class="service-icon p-3 rounded-circle mb-3"
-            >
-              <i class="fa fa-users" aria-hidden="true"></i>
-            </a>
-          </div>
-          <h5 class="mt-4 mb-2 skill_container__title">Clientes</h5>
-          <p class="w-90 mx-auto text-muted skill_container__content">
-            Sobre <strong>Clientes</strong> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Libero sequi, dolorem nostrum
-            consequatur quas saepe. Laborum voluptatem quam labore explicabo
-            soluta aut assumenda nostrum magnam dolor delectus, illum sit
-            cupiditate?
-          </p>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Image Section - Professional Team -->
+    <section class="py-20 bg-gray-100">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+          <!-- Image -->
+          <div class="order-2 lg:order-1">
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl group image-overlay h-[500px]">
+              <img src="./img/man.jpeg" alt="Profissional de Advocacia" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="position: absolute; top: 0; left: 0;" />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+            </div>
+          </div>
+          
+          <!-- Content -->
+          <div class="order-1 lg:order-2">
+            <h2 class="text-4xl font-bold mb-6 text-gray-900">Comprometidos com Resultados</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Nossa equipe é formada por advogados especializados e comprometidos em oferecer soluções jurídicas personalizadas para cada cliente.
+            </p>
+            <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+              Acreditamos que cada caso é único e merece atenção dedicada. Trabalhamos incansavelmente para garantir que seus direitos sejam protegidos e seus objetivos alcançados.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-award text-white text-xl"></i>
+                </div>
+                <div>
+                  <p class="font-bold text-gray-900">15+ Anos</p>
+                  <p class="text-sm text-gray-600">De Experiência</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-users text-white text-xl"></i>
+                </div>
+                <div>
+                  <p class="font-bold text-gray-900">500+</p>
+                  <p class="text-sm text-gray-600">Clientes Atendidos</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Services -->
-    <div class="container-fluid mt-3" id="services">
-      <div class="row">
-        <div class="col-md-12 col-lg-10-md-offset-lg-1">
-          <div class="col d-flex flex-wrap justify-content-center">
-            <h1 class="align-self-center">Serviços</h1>
+    <section class="py-20 bg-gray-900 text-white" id="services">
+      <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-16">Serviços</h2>
+        
+        <div class="max-w-5xl mx-auto">
+          <!-- Tabs -->
+          <div class="flex flex-wrap gap-3 mb-8 justify-center">
+            <button onclick="showService(1)" id="tab-1" class="service-tab active px-6 py-3 rounded-lg font-medium transition">
+              Direito Civil
+            </button>
+            <button onclick="showService(2)" id="tab-2" class="service-tab px-6 py-3 rounded-lg font-medium transition">
+              Direito Trabalhista
+            </button>
+            <button onclick="showService(3)" id="tab-3" class="service-tab px-6 py-3 rounded-lg font-medium transition">
+              Direito de Família
+            </button>
+            <button onclick="showService(4)" id="tab-4" class="service-tab px-6 py-3 rounded-lg font-medium transition">
+              Direito Empresarial
+            </button>
+            <button onclick="showService(5)" id="tab-5" class="service-tab px-6 py-3 rounded-lg font-medium transition">
+              Direito Imobiliário
+            </button>
           </div>
-          <ul class="nav nav-tabs services" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link tab-link active"
-                id="service1-tab"
-                data-toggle="tab"
-                href="#service1"
-                role="tab"
-                aria-controls="service1"
-                aria-selected="true"
-                >Serviço 1</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link tab-link"
-                id="service2-tab"
-                data-toggle="tab"
-                href="#service2"
-                role="tab"
-                aria-controls="service2"
-                aria-selected="false"
-                >Serviço 2</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link tab-link"
-                id="service3-tab"
-                data-toggle="tab"
-                href="#service3"
-                role="tab"
-                aria-controls="service3"
-                aria-selected="false"
-                >Serviço 3</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link tab-link"
-                id="service4-tab"
-                data-toggle="tab"
-                href="#service4"
-                role="tab"
-                aria-controls="service4"
-                aria-selected="false"
-                >Serviço 4</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link tab-link"
-                id="service5-tab"
-                data-toggle="tab"
-                href="#service5"
-                role="tab"
-                aria-controls="service5"
-                aria-selected="false"
-                >Serviço 5</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div
-              class="tab-pane fade show active p-4"
-              id="service1"
-              role="tabpanel"
-              aria-labelledby="service1-tab"
-            >
-              <h3 class="text-left">Serviço 1</h3>
+
+          <!-- Tab Content -->
+          <div class="bg-gray-800 rounded-2xl p-8">
+            <div id="service-1" class="service-content">
+              <h3 class="text-2xl font-bold mb-4">Direito Civil</h3>
               <div>
-                <b>Descrição</b><br />
-                <ul class="listItems">
-                  <li>item</li>
+                <p class="font-semibold mb-4 text-gray-300">Atuamos em todas as áreas do Direito Civil, oferecendo soluções jurídicas completas e personalizadas:</p>
+                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                  <li>Contratos e negociações em geral</li>
+                  <li>Ações de cobrança e execução de títulos</li>
+                  <li>Responsabilidade civil e indenizações</li>
+                  <li>Direito do consumidor e defesa em demandas</li>
+                  <li>Usucapião e regularização de propriedades</li>
+                  <li>Inventário e partilha de bens</li>
+                  <li>Assessoria preventiva e consultiva</li>
                 </ul>
               </div>
             </div>
 
-            <div
-              class="tab-pane fade p-4"
-              id="service2"
-              role="tabpanel"
-              aria-labelledby="service2-tab"
-            >
-              <h3 class="text-left">Serviço 2</h3>
+            <div id="service-2" class="service-content hidden">
+              <h3 class="text-2xl font-bold mb-4">Direito Trabalhista</h3>
               <div>
-                <b>Descrição</b><br />
-                <ul class="listItems">
-                  <li>item</li>
+                <p class="font-semibold mb-4 text-gray-300">Defesa e assessoria completa em questões trabalhistas para empregados e empregadores:</p>
+                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                  <li>Reclamações trabalhistas e defesas</li>
+                  <li>Rescisões contratuais e verbas rescisórias</li>
+                  <li>Acidentes de trabalho e doenças ocupacionais</li>
+                  <li>Assédio moral e danos morais no ambiente de trabalho</li>
+                  <li>Horas extras, adicional noturno e insalubridade</li>
+                  <li>Consultoria preventiva para empresas</li>
+                  <li>Homologações e acordos trabalhistas</li>
                 </ul>
               </div>
             </div>
 
-            <div
-              class="tab-pane fade p-4"
-              id="service3"
-              role="tabpanel"
-              aria-labelledby="service3-tab"
-            >
-              <h3 class="text-left">Serviço 3</h3>
-              <b>Descrição</b><br />
-              <ul class="listItems">
-                <li>item</li>
-              </ul>
+            <div id="service-3" class="service-content hidden">
+              <h3 class="text-2xl font-bold mb-4">Direito de Família</h3>
+              <div>
+                <p class="font-semibold mb-4 text-gray-300">Apoio jurídico sensível e humanizado em questões familiares:</p>
+                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                  <li>Divórcio consensual e litigioso</li>
+                  <li>Pensão alimentícia e revisão de valores</li>
+                  <li>Guarda de filhos e regulamentação de visitas</li>
+                  <li>Reconhecimento e dissolução de união estável</li>
+                  <li>Partilha de bens e meação</li>
+                  <li>Adoção e destituição do poder familiar</li>
+                  <li>Investigação e negatória de paternidade</li>
+                </ul>
+              </div>
             </div>
 
-            <div
-              class="tab-pane fade p-4"
-              id="service4"
-              role="tabpanel"
-              aria-labelledby="service4-tab"
-            >
-              <h3 class="text-left">Serviço 4</h3>
-              <b>Descrição</b><br />
-              <ul class="listItems">
-                <li>item</li>
-              </ul>
+            <div id="service-4" class="service-content hidden">
+              <h3 class="text-2xl font-bold mb-4">Direito Empresarial</h3>
+              <div>
+                <p class="font-semibold mb-4 text-gray-300">Soluções jurídicas estratégicas para empresas de todos os portes:</p>
+                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                  <li>Constituição de empresas e alterações contratuais</li>
+                  <li>Contratos empresariais e comerciais</li>
+                  <li>Fusões, aquisições e reorganizações societárias</li>
+                  <li>Recuperação judicial e extrajudicial</li>
+                  <li>Propriedade intelectual e registro de marcas</li>
+                  <li>Compliance e governança corporativa</li>
+                  <li>Consultoria jurídica preventiva e estratégica</li>
+                </ul>
+              </div>
             </div>
 
-            <div
-              class="tab-pane fade p-4"
-              id="service5"
-              role="tabpanel"
-              aria-labelledby="service5-tab"
-            >
-              <h3 class="text-left">Serviço 5</h3>
-              <b>Descrição</b><br />
-              <ul class="listItems">
-                <li>item</li>
-              </ul>
+            <div id="service-5" class="service-content hidden">
+              <h3 class="text-2xl font-bold mb-4">Direito Imobiliário</h3>
+              <div>
+                <p class="font-semibold mb-4 text-gray-300">Assessoria completa em transações e litígios imobiliários:</p>
+                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                  <li>Compra, venda e permuta de imóveis</li>
+                  <li>Contratos de locação e despejo</li>
+                  <li>Regularização de documentação imobiliária</li>
+                  <li>Usucapião urbana e rural</li>
+                  <li>Ações possessórias e reivindicatórias</li>
+                  <li>Incorporações imobiliárias e loteamentos</li>
+                  <li>Due diligence imobiliária</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <style>
+      .service-tab {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #d1d5db;
+      }
+      .service-tab:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+      .service-tab.active {
+        background-color: white;
+        color: #111827;
+      }
+    </style>
+
+    <script>
+      function showService(num) {
+        // Hide all content
+        document.querySelectorAll('.service-content').forEach(el => el.classList.add('hidden'));
+        // Remove active from all tabs
+        document.querySelectorAll('.service-tab').forEach(el => el.classList.remove('active'));
+        
+        // Show selected content
+        document.getElementById('service-' + num).classList.remove('hidden');
+        // Activate selected tab
+        document.getElementById('tab-' + num).classList.add('active');
+      }
+    </script>
+
+    <!-- CTA Section with Image -->
+    <section class="relative py-32 overflow-hidden">
+      <!-- Background Image -->
+      <div class="absolute inset-0 z-0 overflow-hidden">
+        <img src="./img/hand-shaking.jpeg" alt="Parceria e Confiança" class="parallax-bg" style="transform: translateY(0)" />
+        <div class="absolute inset-0 bg-gray-900/80"></div>
+      </div>
+      
+      <!-- Content -->
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-3xl mx-auto text-center text-white">
+          <h2 class="text-4xl md:text-5xl font-bold mb-6">
+            Pronto para Defender Seus Direitos?
+          </h2>
+          <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+            Entre em contato conosco e agende uma consulta. Nossa equipe está pronta para analisar seu caso e oferecer as melhores soluções jurídicas.
+          </p>
+          <div class="flex flex-wrap gap-4 justify-center">
+            <a href="#contact" class="magnetic-btn bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition transform hover:scale-105">
+              Agendar Consulta
+            </a>
+            <a href="https://wa.me/5565999207154" target="_blank" class="bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition transform hover:scale-105 flex items-center gap-2">
+              <i class="fab fa-whatsapp text-xl"></i>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Contact -->
-    <div class="container mt-3" id="contact">
-      <div class="row">
-        <div class="col d-flex flex-wrap justify-content-center">
-          <h1 class="align-self-center mx-1 section_title">Contato</h1>
-        </div>
-        <div class="col-md-12 w-100">
-          <div class="row">
-            <div class="col-md-8 offset-md-2 w-100">
-              <form class="p-4 form">
-                <div class="sentConfirm">
-                  <p class="text-center">Obrigado!</p>
-                  <button type="button" class="btn btn-primary one_more">
-                    Mensagem
-                  </button>
+    <section class="py-20 bg-white" id="contact">
+      <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">Contato</h2>
+        
+        <div class="max-w-2xl mx-auto">
+          <form class="space-y-6 bg-gray-900 p-8 rounded-2xl text-white" id="contact-form">
+            <!-- Success Message -->
+            <div id="success-message" class="hidden text-center py-8">
+              <p class="text-2xl mb-4">Obrigado!</p>
+              <button type="button" onclick="resetForm()" class="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Nova Mensagem
+              </button>
+            </div>
+
+            <!-- Form Fields -->
+            <div id="form-fields">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="name" class="block text-sm font-medium mb-2">Nome</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition text-white"
+                    placeholder="Seu nome"
+                  />
+                  <span data-field="name" class="error hidden text-red-400 text-sm mt-1"></span>
+                </div>
+                
+                <div>
+                  <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition text-white"
+                    placeholder="Seu email"
+                  />
+                  <span data-field="email" class="error hidden text-red-400 text-sm mt-1"></span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="phone" class="block text-sm font-medium mb-2">Telefone</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition text-white"
+                    placeholder="Seu telefone"
+                  />
+                  <span data-field="phone" class="error hidden text-red-400 text-sm mt-1"></span>
                 </div>
 
-                <div class="form_row">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Seu email"
-                      name="email"
-                    />
-                    <span data-field="email" class="error hide"></span>
-                  </div>
-                  <div class="form-group">
-                    <label for="name">Nome</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      placeholder="Seu name"
-                      name="name"
-                    />
-                    <span data-field="name" class="error hide"></span>
-                  </div>
+                <div>
+                  <label for="service" class="block text-sm font-medium mb-2">Serviço</label>
+                  <select
+                    name="service"
+                    id="service"
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition text-white"
+                  >
+                    <option value="0">Direito Civil</option>
+                    <option value="1">Direito Trabalhista</option>
+                    <option value="2">Direito de Família</option>
+                    <option value="3">Direito Empresarial</option>
+                    <option value="4">Direito Imobiliário</option>
+                  </select>
                 </div>
-                <div class="form-group">
-                  <label for="message">Mensagem</label>
-                  <textarea
-                    class="form-control rounded-2"
-                    id="message"
-                    name="message"
-                    rows="3"
-                    placeholder="Sua mensagem"
-                  ></textarea>
-                  <span data-field="message" class="error hide"></span>
-                </div>
-                <div class="row">
-                  <div class="form-group col-md-7 col-sm-12">
-                    <label>Serviço</label>
-                    <select class="custom-select" name="service">
-                      <option value="0" selected>Serviço 1</option>
-                      <option value="1">Serviço 2</option>
-                      <option value="2">Serviço 3</option>
-                      <option value="3">Serviço 4</option>
-                      <option value="4">Serviço 5</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-5 col-sm-12">
-                    <label for="phone">Telefone</label>
-                    <input
-                      class="form-control rounded-0"
-                      id="phone"
-                      name="phone"
-                      placeholder="Seu telefone"
-                    />
-                    <span data-field="phone" class="error hide"></span>
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-block mb-2 btn-primary">
-                  Enviar
-                </button>
-              </form>
+              </div>
+
+              <div>
+                <label for="message" class="block text-sm font-medium mb-2">Mensagem</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-white focus:ring-2 focus:ring-white/20 outline-none transition resize-none text-white"
+                  placeholder="Sua mensagem"
+                ></textarea>
+                <span data-field="message" class="error hidden text-red-400 text-sm mt-1"></span>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full bg-white text-gray-900 py-4 rounded-lg font-semibold hover:bg-gray-100 transition transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Enviar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+      <div class="container mx-auto px-6">
+        <!-- Map Section -->
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold mb-6 flex items-center justify-center">
+            <i class="fas fa-address-card mr-3"></i>
+            Endereço
+          </h3>
+          <div class="rounded-2xl overflow-hidden shadow-xl">
+            <div id="wrapper-9cd199b9cc5410cd3b1ad21cab2e54d3">
+              <div id="map-9cd199b9cc5410cd3b1ad21cab2e54d3"></div>
+              <script>
+                (function () {
+                  var setting = {
+                    query: "Cuiabá - MT, Brasil",
+                    width: 1600,
+                    height: 300,
+                    satellite: false,
+                    zoom: 13,
+                    placeId: "ChIJocTJ4IGVnZMRrhr2Ts_g_KU",
+                    cid: "0xa5fce0cf4ef61aae",
+                    coords: [-15.5954142, -56.0925956],
+                    cityUrl: "/brazil/cuiaba-37386",
+                    cityAnchorText: "Map of Cuiabá, Mato Grosso, Brazil",
+                    lang: "pt",
+                    queryString: "Cuiabá - MT, Brasil",
+                    centerCoord: [-15.5954142, -56.0925956],
+                    id: "map-9cd199b9cc5410cd3b1ad21cab2e54d3",
+                    embed_id: "1126941",
+                  };
+                  var d = document;
+                  var s = d.createElement("script");
+                  s.src = "https://1map.com/js/script-for-user.js?embed_id=1126941";
+                  s.async = true;
+                  s.onload = function (e) {
+                    window.OneMap.initMap(setting);
+                  };
+                  var to = d.getElementsByTagName("script")[0];
+                  to.parentNode.insertBefore(s, to);
+                })();
+              </script>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <footer class="page-footer font-small mt-3">
-      <div class="container-fluid text-center text-md-left">
-        <div class="row">
-          <div class="col-md-10 offset-md-1 map_container">
-            <h6 class="font-weight-bold text-uppercase mt-3 mb-1">
-              <i class="fas fa-address-card"></i>
-              Endereço
-            </h6>
-            <div>
-              <div id="wrapper-9cd199b9cc5410cd3b1ad21cab2e54d3">
-                <div id="map-9cd199b9cc5410cd3b1ad21cab2e54d3"></div>
-                <script>
-                  (function () {
-                    var setting = {
-                      query: "Cuiabá - MT, Brasil",
-                      width: 1600,
-                      height: 300,
-                      satellite: false,
-                      zoom: 13,
-                      placeId: "ChIJocTJ4IGVnZMRrhr2Ts_g_KU",
-                      cid: "0xa5fce0cf4ef61aae",
-                      coords: [-15.5954142, -56.0925956],
-                      cityUrl: "/brazil/cuiaba-37386",
-                      cityAnchorText: "Map of Cuiabá, Mato Grosso, Brazil",
-                      lang: "pt",
-                      queryString: "Cuiabá - MT, Brasil",
-                      centerCoord: [-15.5954142, -56.0925956],
-                      id: "map-9cd199b9cc5410cd3b1ad21cab2e54d3",
-                      embed_id: "1126941",
-                    };
-                    var d = document;
-                    var s = d.createElement("script");
-                    s.src =
-                      "https://1map.com/js/script-for-user.js?embed_id=1126941";
-                    s.async = true;
-                    s.onload = function (e) {
-                      window.OneMap.initMap(setting);
-                    };
-                    var to = d.getElementsByTagName("script")[0];
-                    to.parentNode.insertBefore(s, to);
-                  })();
-                </script>
-                <a href="https://1map.com/map-embed">1 Map</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row under_map">
-          <div class="col-md-3 offset-md-1">
-            <h5 class="font-weight-bold text-uppercase mt-3 mb-4">
-              Redes sociais
-            </h5>
-            <ul class="list-unstyled link-container ml-3">
-              <div class="link-container__center">
-                <li class="asociat_container">
-                  <a href="javascript:void(0)" class="asociat">
-                    <i class="fas fa-balance-scale" style="color: #808f87"></i>
-                    link
-                  </a>
-                </li>
-                <li class="asociat_container">
-                  <a href="javascript:void(0)" class="asociat">
-                    <i class="fas fa-balance-scale" style="color: #808f87"></i>
-                    link
-                  </a>
-                </li>
-                <!-- <li class="asociat_container">
-                                <a href="javascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li>
-                            <li class="asociat_container">
-                                <a href="javascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li> -->
-              </div>
+        <!-- Links Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto mb-12">
+          <!-- Social Links -->
+          <div>
+            <h3 class="text-xl font-semibold mb-6 text-center md:text-left">Redes Sociais</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href="#" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fab fa-facebook mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  Facebook - Advocacia Cuiabá
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fab fa-instagram mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  Instagram @advocaciacuiaba
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fab fa-linkedin mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  LinkedIn - Escritório de Advocacia
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/5565999207154" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fab fa-whatsapp mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  WhatsApp - (65) 99920-7154
+                </a>
+              </li>
             </ul>
           </div>
-          <div class="col-md-3 offset-md-1">
-            <h5 class="font-weight-bold text-uppercase mt-3 mb-4">
-              Outros links
-            </h5>
-            <ul class="list-unstyled link-container ml-3">
-              <div class="link-container__center larger">
-                <li class="asociat_container">
-                  <a href="javascript:void(0)" class="asociat">
-                    <i class="fas fa-balance-scale" style="color: #808f87"></i>
-                    link
-                  </a>
-                </li>
-                <li class="asociat_container">
-                  <a href="javascript:void(0)" class="asociat">
-                    <i class="fas fa-balance-scale" style="color: #808f87"></i>
-                    link
-                  </a>
-                </li>
-                <!-- <li class="asociat_container">
-                                    <a href="javascript:void(0)SitePages/acasa.aspx" class="asociat">
-                                        <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                        link
-                                    </a>
-                                </li>
-                                <li class="asociat_container">
-                                    <a href="javascript:void(0)"
-                                        class="asociat">
-                                        <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                        link
-                                    </a>
-                                </li> -->
-              </div>
+
+          <!-- Other Links -->
+          <div>
+            <h3 class="text-xl font-semibold mb-6 text-center md:text-left">Links Úteis</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href="https://www.oab.org.br" target="_blank" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fas fa-gavel mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  Ordem dos Advogados do Brasil
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tjmt.jus.br" target="_blank" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fas fa-landmark mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  Tribunal de Justiça de MT
+                </a>
+              </li>
+              <li>
+                <a href="https://www.trt23.jus.br" target="_blank" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fas fa-briefcase mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  Tribunal Regional do Trabalho
+                </a>
+              </li>
+              <li>
+                <a href="https://www.jusbrasil.com.br" target="_blank" class="flex items-center text-gray-300 hover:text-white transition group">
+                  <i class="fas fa-book mr-3 text-gray-500 group-hover:text-white transition"></i>
+                  Consulta Jurisprudência
+                </a>
+              </li>
             </ul>
           </div>
-          <!-- <div class="col-md-3 offset-md-1">
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">similar links</h5>
-                    <ul class="list-unstyled link-container ml-3">
-                        <div class="link-container__center larger">
-                            <li class="asociat_container">
-                                <a href="javascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li>
-                            <li class="asociat_container">
-                                <a href="javascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li>
-                            <li class="asociat_container">
-                                <a href="javascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li>
-                            <li class="asociat_container">
-                                <a href="javascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li>
-                            <li class="asociat_container">
-                                <a hrefjavascript:void(0)" class="asociat">
-                                    <i class="fas fa-balance-scale" style="color: #808F87;"></i>
-                                    link
-                                </a>
-                            </li>
-                        </div>
-                    </ul> 
-                </div>-->
+        </div>
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 pt-8">
+          <p class="text-center text-gray-400">
+            © 2025 - Desenvolvido por 
+            <a href="https://unrender.dev" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-300 transition font-semibold">
+              Unrender
+            </a>
+          </p>
         </div>
       </div>
-      <hr />
-
-      <div class="quote-container text-center">
-        <blockquote>
-          <p>2024 by unrender.</p>
-        </blockquote>
-      </div>
-
-      <div class="footer-copyright text-center py-1"></div>
     </footer>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.12.0/validate.min.js"></script>
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-      crossorigin="anonymous"
-    ></script>
-    <script src="./js/anim.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollToPlugin.min.js"></script>
+    <script src="./js/animations.js"></script>
     <script src="./js/main.js"></script>
+    <script>
+      function resetForm() {
+        document.getElementById('contact-form').reset();
+        document.getElementById('success-message').classList.add('hidden');
+        document.getElementById('form-fields').classList.remove('hidden');
+      }
+    </script>
   </body>
 </html>
